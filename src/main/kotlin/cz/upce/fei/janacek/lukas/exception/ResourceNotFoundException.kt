@@ -1,4 +1,4 @@
-package cz.upce.fei.janacek.lukas.service
+package cz.upce.fei.janacek.lukas.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler

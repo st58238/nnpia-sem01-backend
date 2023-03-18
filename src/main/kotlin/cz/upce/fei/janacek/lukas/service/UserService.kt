@@ -1,5 +1,6 @@
 package cz.upce.fei.janacek.lukas.service
 
+import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.User
 import cz.upce.fei.janacek.lukas.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
