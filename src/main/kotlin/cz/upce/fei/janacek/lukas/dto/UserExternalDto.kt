@@ -6,7 +6,7 @@ import cz.upce.fei.janacek.lukas.model.User
 import java.time.LocalDateTime
 
 class UserExternalDto (
-    val id: Long,
+    val id: Long?,
     val username: String,
     val password: String,
     val registeredDate: LocalDateTime,
@@ -15,8 +15,8 @@ class UserExternalDto (
     val roles: Set<Role>
 )
 
-fun UserExternalDto.toEntity(): User {
-    return User(id, username, password, registeredDate, enabled, team, roles)
+fun UserExternalDto.toEntity(id: Long? = null): User {
+    return User(id ?: 0, username, password, registeredDate, enabled, team, roles)
 }
 
 fun User.toExternalDto(): UserExternalDto {

@@ -6,6 +6,7 @@ import javax.persistence.*
 class Role (
     @Id
     @Column(name = "role_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     @Column
     val name: String,

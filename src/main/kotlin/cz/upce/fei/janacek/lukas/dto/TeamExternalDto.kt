@@ -4,7 +4,7 @@ import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.model.User
 
 class TeamExternalDto (
-    val id: Long,
+    val id: Long?,
     val name: String,
     val description: String?,
     val leader: User?,
@@ -12,8 +12,8 @@ class TeamExternalDto (
     val members: Set<User>
 )
 
-fun TeamExternalDto.toEntity(): Team {
-    return Team(id, name, description, leader, mentor, members)
+fun TeamExternalDto.toEntity(id: Long? = null): Team {
+    return Team(id ?: 0, name, description, leader, mentor, members)
 }
 
 fun Team.toExternalDto(): TeamExternalDto {

@@ -5,7 +5,7 @@ import cz.upce.fei.janacek.lukas.model.Tournament
 import java.time.LocalDateTime
 
 class TournamentExternalDto (
-    val id: Long,
+    val id: Long?,
     val name: String,
     val description: String,
     val startDateTime: LocalDateTime,
@@ -13,10 +13,10 @@ class TournamentExternalDto (
     val participants: Set<Team>?
 )
 
-fun TournamentExternalDto.toEntity(): Tournament {
-    return Tournament(id, name, description, startDateTime, endDateTime, participants)
+fun TournamentExternalDto.toEntity(id: Long? = null): Tournament {
+    return Tournament(id ?: 0, name, description, startDateTime, endDateTime, participants)
 }
 
-fun Tournament.toExternalDto(): Tournament {
-    return Tournament(id, name, description, startDateTime, endDateTime, participants)
+fun Tournament.toExternalDto(): TournamentExternalDto {
+    return TournamentExternalDto(id, name, description, startDateTime, endDateTime, participants)
 }
