@@ -1,5 +1,6 @@
 package cz.upce.fei.janacek.lukas
 
+import cz.upce.fei.janacek.lukas.configuration.BasicConfiguration
 import cz.upce.fei.janacek.lukas.configuration.SpringConfiguration
 import cz.upce.fei.janacek.lukas.lib.Preparations
 import cz.upce.fei.janacek.lukas.migration.MigrationFunctionLibrary.postProcessMigration
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Import
 
 
 @SpringBootApplication
-@Import(SpringConfiguration::class)
+@Import(BasicConfiguration::class, SpringConfiguration::class)
 class Main
 
 fun main(args: Array<out String>) {
