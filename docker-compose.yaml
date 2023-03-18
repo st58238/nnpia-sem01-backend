@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: sem01
+      POSTGRES_USER: nnpiaSem01
+      POSTGRES_PASSWORD: nnpiaSem01SecurePlaintextPassword
+    ports:
+      - "5432:5432"
