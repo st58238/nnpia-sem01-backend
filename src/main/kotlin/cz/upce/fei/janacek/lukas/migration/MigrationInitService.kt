@@ -56,9 +56,9 @@ final class MigrationInitService (
     private fun init() {
         val allDbName = "V${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))}__migration.sql"
         val migrationFile = File(allDbName)
-        val command = "migra $appDbAddress $migrationDbAddress --unsafe"
+        val command = "/opt/homebrew/bin/migra $appDbAddress $migrationDbAddress --unsafe"
         println(command)
-        val process: Process = Runtime.getRuntime().exec(arrayOf(String.format(command)))
+        val process: Process = Runtime.getRuntime().exec(command.split(" ").toTypedArray())
         val migration = mutableListOf<String>()
         val streamGobbler = StreamGobbler(process.inputStream) { s: String ->
             if (!s.contains("flyway") && !(ignoredSqlQueries?.any {
@@ -73,7 +73,8 @@ final class MigrationInitService (
         migration.removeIf { it.isEmpty() }
         val res = migration.stream()
             .collect(Collectors.joining("\n"))
-        migrationFile.writeText("-- noinspection SqlResolveForFile\n\n$res")
+        if (res.isNotEmpty() && res.isNotBlank())
+            migrationFile.writeText("-- noinspection SqlResolveForFile\n\n$res")
     }
 
     private class StreamGobbler(private val inputStream: InputStream, private val consumer: Consumer<String>) : Runnable {

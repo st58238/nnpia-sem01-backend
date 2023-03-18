@@ -11,9 +11,9 @@ import java.sql.DriverManager
 internal object MigrationFunctionLibrary {
 
     @Value("\${spring.datasource.username}")
-    private lateinit var username: String
+    private var username: String? = null
     @Value("\${spring.datasource.password}")
-    private lateinit var password: String
+    private var password: String? = null
 
     fun checkForMigration(args: Array<out String>): Array<out String> {
         val returned = mutableListOf<String>()
@@ -27,7 +27,7 @@ internal object MigrationFunctionLibrary {
 
     @Suppress("SqlResolve")
     private fun migrationActive() {
-        val connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", username, password)
+        val connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", username ?: "nnpiaSem01", password ?: "nnpiaSem01SecurePlaintextPassword")
         try {
             connection.createStatement().execute(connection.nativeSQL("CREATE DATABASE sem01;"))
         } catch (_: Exception) {}
