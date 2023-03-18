@@ -1,4 +1,4 @@
-package cz.upce.fei.janacek.lukas.service
+package cz.upce.fei.janacek.lukas.migration
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier

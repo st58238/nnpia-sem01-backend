@@ -1,6 +1,6 @@
 package cz.upce.fei.janacek.lukas.configuration
 
-import cz.upce.fei.janacek.lukas.service.MigrationInitService
+import cz.upce.fei.janacek.lukas.migration.MigrationInitService
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import

@@ -1,7 +1,7 @@
 package cz.upce.fei.janacek.lukas
 
 import cz.upce.fei.janacek.lukas.configuration.SpringConfiguration
-import cz.upce.fei.janacek.lukas.lib.MigrationFunctionLibrary.prePass
+import cz.upce.fei.janacek.lukas.migration.MigrationFunctionLibrary.checkForMigration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Import
 class Main
 
 fun main(args: Array<out String>) {
-    val remainingArgs = prePass(args)
+    val remainingArgs = checkForMigration(args)
     runApplication<Main>(*remainingArgs)
 }
