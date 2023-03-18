@@ -31,6 +31,7 @@ class TournamentService (
             newTournament.description,
             newTournament.startDateTime,
             newTournament.endDateTime,
+            newTournament.matches,
             newTournament.participants
         )
         return tournamentRepository.save(tournamentToSave)
