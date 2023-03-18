@@ -1,4 +1,15 @@
+*.iml
 .gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+/gradle/
+/gradlew
+/gradlew.bat
+
+
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -11,7 +22,6 @@ build/
 .idea/libraries/
 /.idea/
 *.iws
-*.iml
 *.ipr
 out/
 !**/src/main/**/out/
@@ -38,8 +48,3 @@ bin/
 
 ### VS Code ###
 .vscode/
-
-### Mac OS ###
-.DS_Store
-
-/gradle/
