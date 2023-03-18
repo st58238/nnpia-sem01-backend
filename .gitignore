@@ -5,6 +5,9 @@
 .DS_Store
 /build
 /captures
+/gradle/
+/gradlew
+/gradlew.bat
 
 
 build/
@@ -45,4 +48,3 @@ bin/
 
 ### VS Code ###
 .vscode/
-/gradle/
