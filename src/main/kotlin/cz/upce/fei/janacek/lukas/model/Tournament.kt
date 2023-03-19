@@ -22,7 +22,8 @@ class Tournament (
     val startDateTime: LocalDateTime,
     @Column
     val endDateTime: LocalDateTime,
-    @Column
+    @OneToMany
+    val matches: Set<Match>,
     @OneToMany
     val participants: Set<Team>?
 )
