@@ -5,7 +5,7 @@ import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.model.Tournament
 import java.time.LocalDateTime
 
-class TournamentExternalDto (
+data class TournamentExternalDto (
     val id: Long?,
     val name: String,
     val description: String,

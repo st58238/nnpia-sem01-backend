@@ -5,13 +5,13 @@ import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.model.User
 import java.time.LocalDateTime
 
-class UserExternalDto (
+data class UserExternalDto (
     val id: Long?,
     val username: String,
     val password: String,
     val registeredDate: LocalDateTime,
     val enabled: Boolean,
-    val team: Team,
+    val team: Team?,
     val roles: Set<Role>
 )
 

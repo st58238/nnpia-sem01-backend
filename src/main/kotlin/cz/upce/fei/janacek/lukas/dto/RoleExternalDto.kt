@@ -3,7 +3,7 @@ package cz.upce.fei.janacek.lukas.dto
 import cz.upce.fei.janacek.lukas.model.Role
 import cz.upce.fei.janacek.lukas.model.User
 
-class RoleExternalDto (
+data class RoleExternalDto (
     val id: Long?,
     val name: String,
     val description: String?,
