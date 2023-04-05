@@ -1,16 +1,13 @@
 package cz.upce.fei.janacek.lukas.controller
 
-import cz.upce.fei.janacek.lukas.dto.UserExternalDto
-import cz.upce.fei.janacek.lukas.dto.toEntity
-import cz.upce.fei.janacek.lukas.dto.toExternalDto
+import cz.upce.fei.janacek.lukas.dto.*
 import cz.upce.fei.janacek.lukas.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
-@Controller
+@RestController
 @RequestMapping("/users/")
 class UserController (
     private val userService: UserService
@@ -25,11 +22,11 @@ class UserController (
         return ResponseEntity.ok(user.toExternalDto())
     }
 
-    @PostMapping("")
+    @PostMapping("", "/create")
     fun create(
         @RequestBody
         @Validated
-        userDto: UserExternalDto
+        userDto: UserRegistrationDto
     ): ResponseEntity<UserExternalDto> {
         val result = userService.create(userDto.toEntity())
         return ResponseEntity<UserExternalDto>(result.toExternalDto(), HttpStatus.CREATED)
