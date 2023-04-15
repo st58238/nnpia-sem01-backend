@@ -5,6 +5,4 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TeamRepository: PagingAndSortingRepository<Team, Long> {
-
-}
+interface TeamRepository: PagingAndSortingRepository<Team, Long>

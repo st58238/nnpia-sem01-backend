@@ -5,6 +5,4 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TournamentRepository: PagingAndSortingRepository<Tournament, Long> {
-
-}
+interface TournamentRepository: PagingAndSortingRepository<Tournament, Long>

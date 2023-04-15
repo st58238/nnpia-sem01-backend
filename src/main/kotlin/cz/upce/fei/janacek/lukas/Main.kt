@@ -6,11 +6,14 @@ import cz.upce.fei.janacek.lukas.lib.Preparations
 import cz.upce.fei.janacek.lukas.migration.MigrationFunctionLibrary.postProcessMigration
 import cz.upce.fei.janacek.lukas.migration.MigrationFunctionLibrary.preProcessMigration
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
 
 
-@SpringBootApplication
+@SpringBootApplication(
+    exclude = [SecurityAutoConfiguration::class]
+)
 @Import(BasicConfiguration::class, SpringConfiguration::class)
 class Main
 

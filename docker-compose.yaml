@@ -1,6 +1,8 @@
 version: "3.9"
 services:
   db:
+    container_name: sem01
+    hostname: sem01
     image: postgres
     restart: always
     environment:

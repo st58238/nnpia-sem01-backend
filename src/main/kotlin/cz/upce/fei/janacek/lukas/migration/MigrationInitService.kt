@@ -53,6 +53,7 @@ final class MigrationInitService (
         })
     }
 
+    // Migration traditionally ran on macOS, if migration is ran elsewhere change the command path to own location of 'migra'
     private fun init() {
         val allDbName = "V${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))}__migration.sql"
         val migrationFile = File(allDbName)
@@ -61,9 +62,9 @@ final class MigrationInitService (
         val process: Process = Runtime.getRuntime().exec(command.split(" ").toTypedArray())
         val migration = mutableListOf<String>()
         val streamGobbler = StreamGobbler(process.inputStream) { s: String ->
-            if (!s.contains("flyway") && !(ignoredSqlQueries?.any {
+            if (!s.contains("flyway") && ignoredSqlQueries?.any {
                     it.trim().lowercase() == s.trim().lowercase()
-                } == true)) {
+                } != true) {
                 migration.add(s)
             }
         }
@@ -75,6 +76,8 @@ final class MigrationInitService (
             .collect(Collectors.joining("\n"))
         if (res.isNotEmpty() && res.isNotBlank())
             migrationFile.writeText("-- noinspection SqlResolveForFile\n\n$res")
+        else
+            Runtime.getRuntime().addShutdownHook(Thread { println("Migration: No differences found") })
     }
 
     private class StreamGobbler(private val inputStream: InputStream, private val consumer: Consumer<String>) : Runnable {
