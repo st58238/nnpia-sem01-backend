@@ -31,7 +31,7 @@ class SecurityConfiguration (
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         val authenticationManager = authManager(http)
-        http.authorizeRequests().antMatchers("/users/create", "/login")
+        http.cors().and().authorizeRequests().antMatchers("/users/create", "/login")
             .permitAll().anyRequest().authenticated().and().csrf().disable()
             .authenticationManager(authenticationManager)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import cz.upce.fei.janacek.lukas.authentication.dto.LoginDto
 import cz.upce.fei.janacek.lukas.authentication.util.JwtTokenUtil
+import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.User
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
@@ -27,7 +29,12 @@ class UserAuthenticationFilter(
             credentials.username,
             credentials.password,
         )
-        return authManager.authenticate(auth)
+        try {
+            return authManager.authenticate(auth)
+        } catch (e: InternalAuthenticationServiceException) {
+            logger.warn(e.message, e)
+            throw ResourceNotFoundException("Cannot find user with username: ${credentials.username}")
+        }
     }
 
     override fun successfulAuthentication(
@@ -40,6 +47,7 @@ class UserAuthenticationFilter(
         val token: String = jwtTokenUtil.generateToken(username)
         res.addHeader(SecurityConfiguration.AUTHORIZATION, token)
         res.addHeader("Access-Control-Expose-Headers", SecurityConfiguration.AUTHORIZATION)
+        res.writer.write(token)
     }
 
     override fun unsuccessfulAuthentication(
