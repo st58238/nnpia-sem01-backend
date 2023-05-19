@@ -3,6 +3,7 @@ package cz.upce.fei.janacek.lukas.service
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.User
 import cz.upce.fei.janacek.lukas.repository.UserRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -19,6 +20,14 @@ class UserService (
         return userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
     }
 
+    @Transactional(readOnly = true)
+    fun findPage(page: Long, size: Int): Set<User> {
+        val users = userRepository.findAll(PageRequest.of(page.toInt(), size))
+        println(users)
+        return users.toSet()
+    }
+
+    @Suppress("unused")
     @Transactional(readOnly = true)
     fun findByUsername(username: String): User {
         return userRepository.findByUsername(username) ?: throw ResourceNotFoundException()

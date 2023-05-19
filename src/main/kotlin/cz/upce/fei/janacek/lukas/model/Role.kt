@@ -1,6 +1,6 @@
 package cz.upce.fei.janacek.lukas.model
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 class Role (

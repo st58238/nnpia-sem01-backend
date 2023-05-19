@@ -4,8 +4,8 @@ import cz.upce.fei.janacek.lukas.model.Role
 import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.model.User
 import java.time.LocalDateTime
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Size
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Size
 
 data class UserRegistrationDto (
     @field:NotBlank

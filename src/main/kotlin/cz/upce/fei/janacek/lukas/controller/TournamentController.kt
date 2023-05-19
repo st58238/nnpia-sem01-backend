@@ -11,10 +11,22 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/tournaments/")
+@RequestMapping("/tournaments")
 class TournamentController (
     private val tournamentService: TournamentService
 ) {
+
+    @GetMapping("/page/{page}")
+    fun getTournamentPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<TournamentExternalDto>> {
+        val tournaments = tournamentService.findPage(page, size)
+        val finalSet = tournaments.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
+    }
 
     @GetMapping("/{id}")
     fun getTournamentById(

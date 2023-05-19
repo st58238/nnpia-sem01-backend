@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.Executors
 import java.util.function.Consumer
 import java.util.stream.Collectors
-import javax.annotation.PostConstruct
+import jakarta.annotation.PostConstruct
 
 
 @Profile("migration")

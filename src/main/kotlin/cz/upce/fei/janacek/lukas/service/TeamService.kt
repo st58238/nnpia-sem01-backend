@@ -3,6 +3,7 @@ package cz.upce.fei.janacek.lukas.service
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.repository.TeamRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,6 +15,12 @@ class TeamService (
     @Transactional(readOnly = true)
     fun findById(id: Long): Team {
         return teamRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
+    }
+
+    @Transactional(readOnly = true)
+    fun findPage(page: Long, size: Int): Set<Team> {
+        val matches = teamRepository.findAll(PageRequest.of(page.toInt(), size))
+        return matches.toSet()
     }
 
     @Transactional
