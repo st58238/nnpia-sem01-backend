@@ -12,10 +12,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.bind.annotation.ExceptionHandler
 import java.util.*
-import javax.servlet.FilterChain
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.FilterChain
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 
 
 class UserAuthenticationFilter(
@@ -33,7 +35,11 @@ class UserAuthenticationFilter(
             return authManager.authenticate(auth)
         } catch (e: InternalAuthenticationServiceException) {
             logger.warn(e.message, e)
-            throw ResourceNotFoundException("Cannot find user with username: ${credentials.username}")
+            val message = "Cannot authenticate user ${credentials.username} with supplied password"
+            response.status = HttpStatus.NOT_FOUND.value()
+            response.writer.write(message)
+            response.writer.close()
+            throw ResourceNotFoundException(HttpStatus.NOT_FOUND, message)
         }
     }
 
@@ -47,7 +53,8 @@ class UserAuthenticationFilter(
         val token: String = jwtTokenUtil.generateToken(username)
         res.addHeader(SecurityConfiguration.AUTHORIZATION, token)
         res.addHeader("Access-Control-Expose-Headers", SecurityConfiguration.AUTHORIZATION)
-        res.writer.write(token)
+        val expiry = Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_IN_MILLIS)
+        res.writer.write("{\"token\": \"$token\", \"expiry\": \"$expiry\"}")
     }
 
     override fun unsuccessfulAuthentication(
@@ -69,6 +76,11 @@ class UserAuthenticationFilter(
         override fun toString(): String {
             return ObjectMapper().writeValueAsString(this)
         }
+    }
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleException() {
+        println("Error...")
     }
 
 }
