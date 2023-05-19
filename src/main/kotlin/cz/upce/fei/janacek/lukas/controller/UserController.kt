@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/users")
 class UserController (
     private val userService: UserService
 ) {
@@ -20,6 +20,18 @@ class UserController (
     ): ResponseEntity<UserExternalDto> {
         val user = userService.findById(id)
         return ResponseEntity.ok(user.toExternalDto())
+    }
+
+    @GetMapping("/page/{page}")
+    fun getUserPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<UserExternalDto>> {
+        val users = userService.findPage(page, size)
+        val finalSet = users.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
     }
 
     @PostMapping("", "/create")
@@ -34,6 +46,18 @@ class UserController (
 
     @PutMapping("/{id}")
     fun modify(
+        @PathVariable
+        id: Long,
+        @RequestBody
+        @Validated
+        userDto: UserExternalDto
+    ): ResponseEntity<UserExternalDto> {
+        val result = userService.modify(id, userDto.toEntity(id))
+        return ResponseEntity<UserExternalDto>(result.toExternalDto(), HttpStatus.ACCEPTED)
+    }
+
+    @PatchMapping("/{id}")
+    fun patch(
         @PathVariable
         id: Long,
         @RequestBody

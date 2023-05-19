@@ -24,6 +24,18 @@ class TeamController (
         return ResponseEntity.ok(team.toExternalDto())
     }
 
+    @GetMapping("/page/{page}")
+    fun getTeamPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<TeamExternalDto>> {
+        val teams = teamService.findPage(page, size)
+        val finalSet = teams.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
+    }
+
     @PostMapping("")
     fun create(
         @RequestBody

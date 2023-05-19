@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/matches/")
+@RequestMapping("/matches")
 class MatchController (
     private val matchService: MatchService
 ) {
@@ -22,6 +22,18 @@ class MatchController (
     ): ResponseEntity<MatchExternalDto> {
         val role = matchService.findById(id)
         return ResponseEntity.ok(role.toExternalDto())
+    }
+
+    @GetMapping("/page/{page}")
+    fun getMatchPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<MatchExternalDto>> {
+        val matches = matchService.findPage(page, size)
+        val finalSet = matches.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
     }
 
     @PostMapping("")
