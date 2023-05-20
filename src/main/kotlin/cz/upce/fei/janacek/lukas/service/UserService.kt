@@ -4,6 +4,7 @@ import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.User
 import cz.upce.fei.janacek.lukas.repository.UserRepository
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -21,9 +22,11 @@ class UserService (
     }
 
     @Transactional(readOnly = true)
-    fun findPage(page: Long, size: Int): Set<User> {
-        val users = userRepository.findAll(PageRequest.of(page.toInt(), size))
-        println(users)
+    fun findPage(page: Long, size: Int, sort: Sort? = null): Set<User> {
+        val users = if (sort == null)
+            userRepository.findAll(PageRequest.of(page.toInt(), size))
+        else
+            userRepository.findAll(PageRequest.of(page.toInt(), size, sort))
         return users.toSet()
     }
 

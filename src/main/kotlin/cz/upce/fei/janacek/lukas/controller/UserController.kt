@@ -2,6 +2,7 @@ package cz.upce.fei.janacek.lukas.controller
 
 import cz.upce.fei.janacek.lukas.dto.*
 import cz.upce.fei.janacek.lukas.service.UserService
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -23,13 +24,18 @@ class UserController (
     }
 
     @GetMapping("/page/{page}")
-    fun getUserPageByOffset(
+    fun getUserPageByOffsetWithSort(
         @PathVariable
         page: Long,
         @RequestParam
-        size: Int
+        size: Int,
+        @RequestParam
+        sort: String?,
+        @RequestParam
+        direction: String?
     ): ResponseEntity<Set<UserExternalDto>> {
-        val users = userService.findPage(page, size)
+        val ascDesc = direction?.uppercase()?.let { Sort.Direction.fromString(it) }
+        val users = userService.findPage(page, size, ascDesc?.let { Sort.by(it, sort) })
         val finalSet = users.map { it.toExternalDto() }.toSet()
         return ResponseEntity.ok(finalSet)
     }
