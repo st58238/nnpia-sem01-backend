@@ -9,15 +9,23 @@ import java.util.*
 import javax.crypto.SecretKey
 
 @Component
-class JwtTokenUtil (private val key: SecretKey) {
+class JwtTokenUtil (
+    private val key: SecretKey
+) {
 
     @Suppress("UnnecessaryVariable")
-    fun generateToken(username: String): String {
+    @Deprecated("Used for testing purposes only, but can be used to override expiration time (5h default)", replaceWith = ReplaceWith("generateToken(username: String): String"))
+    internal fun generateToken(username: String, expiration: Date): String {
         val token = Jwts.builder()
             .setSubject(username)
-            .setExpiration(Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_IN_MILLIS))
+            .setExpiration(expiration)
             .signWith(key, SignatureAlgorithm.HS512).compact()
         return token
+    }
+
+    @Suppress("DEPRECATION")
+    fun generateToken(username: String): String {
+        return generateToken(username, Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_IN_MILLIS))
     }
 
     private fun getClaims(token: String): Claims {
