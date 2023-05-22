@@ -19,8 +19,8 @@ class SecurityConfiguration (
     private val jwtTokenUtil: JwtTokenUtil
 ) {
 
-
-    private fun authManager(http: HttpSecurity): AuthenticationManager {
+    @Bean
+    fun authenticationManager(http: HttpSecurity): AuthenticationManager {
         val authenticationManagerBuilder = http.getSharedObject(
             AuthenticationManagerBuilder::class.java
         )
@@ -30,7 +30,7 @@ class SecurityConfiguration (
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        val authenticationManager = authManager(http)
+        val authenticationManager = authenticationManager(http)
         http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/users/create", "/login")
             .permitAll().anyRequest().authenticated().and()
             .authenticationManager(authenticationManager)
