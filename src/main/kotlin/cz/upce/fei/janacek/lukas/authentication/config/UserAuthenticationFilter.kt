@@ -18,6 +18,8 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class UserAuthenticationFilter(
@@ -53,7 +55,8 @@ class UserAuthenticationFilter(
         val token: String = jwtTokenUtil.generateToken(username)
         res.addHeader(SecurityConfiguration.AUTHORIZATION, token)
         res.addHeader("Access-Control-Expose-Headers", SecurityConfiguration.AUTHORIZATION)
-        val expiry = Date(System.currentTimeMillis() + SecurityConfiguration.EXPIRATION_IN_MILLIS)
+        val expiry = LocalDateTime.now().plusSeconds(SecurityConfiguration.EXPIRATION_IN_MILLIS.toLong() / 1000).format(
+            DateTimeFormatter.ISO_DATE_TIME)
         res.writer.write("{\"token\": \"$token\", \"expiry\": \"$expiry\"}")
     }
 
