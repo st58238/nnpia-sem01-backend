@@ -16,6 +16,10 @@ class UserService (
     private val passwordEncoder: PasswordEncoder
 ) {
 
+    val count: Long
+        @Transactional
+        get() = userRepository.count()
+
     @Transactional(readOnly = true)
     fun findById(id: Long): User {
         return userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
@@ -63,5 +67,12 @@ class UserService (
         val user = userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
         userRepository.deleteById(id)
         return user
+    }
+
+    @Transactional
+    fun toggleEnabled(id: Long): User {
+        val user = userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
+        user.enabled = !user.enabled
+        return userRepository.save(user)
     }
 }

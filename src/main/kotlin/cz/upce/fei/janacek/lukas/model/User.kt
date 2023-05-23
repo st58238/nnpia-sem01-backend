@@ -18,7 +18,7 @@ class User (
     @Column
     val registeredDate: LocalDateTime,
     @Column
-    val enabled: Boolean,
+    var enabled: Boolean,
     @ManyToOne
     @JoinColumn(name = "team_id")
     val team: Team?,
@@ -40,7 +40,7 @@ class User (
     override fun isEnabled(): Boolean = enabled
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableSetOf(GrantedAuthority { "Login" })
+        return roles.map { GrantedAuthority { it.name } }.toMutableList()
     }
 
     override fun getPassword(): String = password

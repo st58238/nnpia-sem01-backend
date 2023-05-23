@@ -38,6 +38,6 @@ class UserAuthorizationFilter(
         if (!jwtTokenUtil.isTokenValid(token)) return null
         val username = jwtTokenUtil.getUsername(token)
         val user = service.loadUserByUsername(username)
-        return UsernamePasswordAuthenticationToken(user, null, null) // TODO doplnit granted authority
+        return UsernamePasswordAuthenticationToken(user, null, user.authorities) // TODO doplnit granted authority
     }
 }
