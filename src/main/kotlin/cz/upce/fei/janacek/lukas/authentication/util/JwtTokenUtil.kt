@@ -4,6 +4,7 @@ import cz.upce.fei.janacek.lukas.authentication.config.SecurityConfiguration
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.jetbrains.annotations.TestOnly
 import org.springframework.stereotype.Component
 import java.util.*
 import javax.crypto.SecretKey
@@ -13,6 +14,7 @@ class JwtTokenUtil (
     private val key: SecretKey
 ) {
 
+    @TestOnly
     @Suppress("UnnecessaryVariable")
     @Deprecated("Used for testing purposes only, but can be used to override expiration time (5h default)", replaceWith = ReplaceWith("generateToken(username: String): String"))
     internal fun generateToken(username: String, expiration: Date): String {
