@@ -4,6 +4,7 @@ import cz.upce.fei.janacek.lukas.dto.MatchExternalDto
 import cz.upce.fei.janacek.lukas.dto.toEntity
 import cz.upce.fei.janacek.lukas.dto.toExternalDto
 import cz.upce.fei.janacek.lukas.service.MatchService
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -29,11 +30,17 @@ class MatchController (
         @PathVariable
         page: Long,
         @RequestParam
-        size: Int
+        size: Int,
+        @RequestParam
+        sort: String?,
+        @RequestParam
+        direction: String?
     ): ResponseEntity<Set<MatchExternalDto>> {
-        val matches = matchService.findPage(page, size)
-        val finalSet = matches.map { it.toExternalDto() }.toSet()
-        return ResponseEntity.ok(finalSet)
+        val realSort = sort ?: "name"
+        val ascDesc = direction?.uppercase()?.let { Sort.Direction.fromString(it) } ?: Sort.Direction.DESC
+        val matches = matchService.findPage(page, size, Sort.by(ascDesc, realSort))
+        val finalSet = matches.map { it.toExternalDto() }
+        return ResponseEntity.ok(finalSet.toSet())
     }
 
     @PostMapping("")

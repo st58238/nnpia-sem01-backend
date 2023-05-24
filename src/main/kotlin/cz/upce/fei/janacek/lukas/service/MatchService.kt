@@ -4,6 +4,7 @@ import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.Match
 import cz.upce.fei.janacek.lukas.repository.MatchRepository
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,9 +20,12 @@ class MatchService (
     }
 
     @Transactional(readOnly = true)
-    fun findPage(page: Long, size: Int): Set<Match> {
-        val matches = matchRepository.findAll(PageRequest.of(page.toInt(), size))
-        return matches.toSet()
+    fun findPage(page: Long, size: Int, sort: Sort? = null): Set<Match> {
+        val matches = if(sort == null)
+            matchRepository.findAll(PageRequest.of(page.toInt(), size))
+        else
+            matchRepository.findAll(PageRequest.of(page.toInt(), size, sort))
+        return matches.toMutableSet()
     }
 
     @Transactional
