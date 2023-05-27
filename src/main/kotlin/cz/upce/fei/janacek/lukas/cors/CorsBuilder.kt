@@ -1,4 +1,4 @@
-package cz.upce.fei.janacek.lukas.authentication.cors
+package cz.upce.fei.janacek.lukas.cors
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry

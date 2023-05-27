@@ -1,6 +1,6 @@
-package cz.upce.fei.janacek.lukas.authentication.util
+package cz.upce.fei.janacek.lukas.lib
 
-import cz.upce.fei.janacek.lukas.authentication.config.SecurityConfiguration
+import cz.upce.fei.janacek.lukas.configuration.SecurityConfiguration
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -15,14 +15,15 @@ class JwtTokenUtil (
 ) {
 
     @TestOnly
-    @Suppress("UnnecessaryVariable")
-    @Deprecated("Used for testing purposes only, but can be used to override expiration time (5h default)", replaceWith = ReplaceWith("generateToken(username: String): String"))
+    @Deprecated(
+        "Used for testing purposes only, but can be used to override expiration time (5h default)",
+        replaceWith = ReplaceWith("generateToken(username: String): String")
+    )
     internal fun generateToken(username: String, expiration: Date): String {
-        val token = Jwts.builder()
+        return Jwts.builder()
             .setSubject(username)
             .setExpiration(expiration)
             .signWith(key, SignatureAlgorithm.HS512).compact()
-        return token
     }
 
     @Suppress("DEPRECATION")

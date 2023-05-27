@@ -1,9 +1,10 @@
-package cz.upce.fei.janacek.lukas.authentication.config
+package cz.upce.fei.janacek.lukas.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import cz.upce.fei.janacek.lukas.authentication.dto.LoginDto
-import cz.upce.fei.janacek.lukas.authentication.util.JwtTokenUtil
+import cz.upce.fei.janacek.lukas.dto.LoginExternalDto
+import cz.upce.fei.janacek.lukas.lib.JwtTokenUtil
+import cz.upce.fei.janacek.lukas.configuration.SecurityConfiguration
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.User
 import org.springframework.security.authentication.AuthenticationManager
@@ -28,7 +29,7 @@ class UserAuthenticationFilter(
 ): UsernamePasswordAuthenticationFilter() {
 
     override fun attemptAuthentication(req: HttpServletRequest, response: HttpServletResponse): Authentication {
-        val credentials = ObjectMapper().registerKotlinModule().readValue(req.inputStream, LoginDto::class.java)
+        val credentials = ObjectMapper().registerKotlinModule().readValue(req.inputStream, LoginExternalDto::class.java)
         val auth = UsernamePasswordAuthenticationToken(
             credentials.username,
             credentials.password,

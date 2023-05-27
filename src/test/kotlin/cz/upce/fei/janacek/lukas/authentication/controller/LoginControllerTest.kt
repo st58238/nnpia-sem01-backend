@@ -1,7 +1,7 @@
 package cz.upce.fei.janacek.lukas.authentication.controller
 
-import cz.upce.fei.janacek.lukas.authentication.config.UserAuthenticationFilter
-import cz.upce.fei.janacek.lukas.authentication.util.JwtTokenUtil
+import cz.upce.fei.janacek.lukas.filter.UserAuthenticationFilter
+import cz.upce.fei.janacek.lukas.lib.JwtTokenUtil
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

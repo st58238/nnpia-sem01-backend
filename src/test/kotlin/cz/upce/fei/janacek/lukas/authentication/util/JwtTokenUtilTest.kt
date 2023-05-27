@@ -1,5 +1,6 @@
 package cz.upce.fei.janacek.lukas.authentication.util
 
+import cz.upce.fei.janacek.lukas.lib.JwtTokenUtil
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
 import org.junit.jupiter.api.Test
@@ -18,7 +19,6 @@ internal class JwtTokenUtilTest (
     companion object {const val USERNAME = "User00"}
     private val jwt = JwtTokenUtil(key)
     private val token = jwt.generateToken(USERNAME)
-
 
     @Test
     fun generateJwtToken() {

@@ -1,4 +1,4 @@
-package cz.upce.fei.janacek.lukas.authentication.service
+package cz.upce.fei.janacek.lukas.service
 
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.repository.UserRepository

@@ -1,6 +1,7 @@
-package cz.upce.fei.janacek.lukas.authentication.config
+package cz.upce.fei.janacek.lukas.filter
 
-import cz.upce.fei.janacek.lukas.authentication.util.JwtTokenUtil
+import cz.upce.fei.janacek.lukas.lib.JwtTokenUtil
+import cz.upce.fei.janacek.lukas.configuration.SecurityConfiguration
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

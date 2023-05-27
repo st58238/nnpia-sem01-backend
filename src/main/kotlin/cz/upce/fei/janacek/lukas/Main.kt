@@ -26,3 +26,9 @@ fun main(args: Array<out String>) {
     postProcessMigration(context, *remainingArgs)
 }
 
+// DONE: package auth převést do struktury configuration, atd.
+// DONE: schéma fix
+// TODO: schéma db do obrázku
+// TODO: Readme.md
+// TODO: profile in frontened
+// TODO: profile image: https://www.npmjs.com/package/react-avatar

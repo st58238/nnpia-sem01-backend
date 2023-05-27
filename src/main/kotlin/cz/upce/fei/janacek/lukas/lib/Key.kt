@@ -1,4 +1,4 @@
-package cz.upce.fei.janacek.lukas.authentication.util
+package cz.upce.fei.janacek.lukas.lib
 
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
