@@ -28,7 +28,7 @@ fun main(args: Array<out String>) {
 
 // DONE: package auth převést do struktury configuration, atd.
 // DONE: schéma fix
-// TODO: schéma db do obrázku
-// TODO: Readme.md
+// DONE: schéma db do obrázku
+// DONW: Readme.md
 // TODO: profile in frontened
 // TODO: profile image: https://www.npmjs.com/package/react-avatar
