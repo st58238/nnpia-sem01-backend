@@ -1,9 +1,9 @@
 
 # Tournament manager (backend)
 
-Simple web application for demostration of capabilities of Spring Boot 3 and React.js 18.
+Simple web application for demonstration of capabilities of Spring Boot 3 and React.js 18.
 
-The application backend is used to store and manage information about toutnaments, matches, users and their roles.
+The application backend is used to store and manage information about tournaments, matches, users and their roles.
 ## Requirements
 
 ```
