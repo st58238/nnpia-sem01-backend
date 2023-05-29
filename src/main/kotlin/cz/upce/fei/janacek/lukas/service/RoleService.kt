@@ -3,6 +3,7 @@ package cz.upce.fei.janacek.lukas.service
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.Role
 import cz.upce.fei.janacek.lukas.repository.RoleRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,6 +16,12 @@ class RoleService (
     @Transactional(readOnly = true)
     fun findById(id: Long): Role {
         return roleRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
+    }
+
+    @Transactional(readOnly = true)
+    fun findPage(page: Long, size: Int): Set<Role> {
+        val roles = roleRepository.findAll(PageRequest.of(page.toInt(), size))
+        return roles.toSet()
     }
 
     @Transactional

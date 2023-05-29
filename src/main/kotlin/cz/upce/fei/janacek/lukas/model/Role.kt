@@ -1,6 +1,7 @@
 package cz.upce.fei.janacek.lukas.model
 
-import javax.persistence.*
+import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.*
 
 @Entity
 class Role (
@@ -13,6 +14,7 @@ class Role (
     @Column
     val description: String?,
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
         name = "user_role",
         joinColumns = [JoinColumn(name = "role_id")],

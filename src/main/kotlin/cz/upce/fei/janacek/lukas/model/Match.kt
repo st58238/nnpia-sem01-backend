@@ -1,13 +1,6 @@
 package cz.upce.fei.janacek.lukas.model
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
+import jakarta.persistence.*
 
 @Entity
 class Match (
@@ -25,8 +18,8 @@ class Match (
     @ManyToOne
     @JoinColumn(name = "team_two_id")
     val teamTwo: Team,
-    @OneToMany
+    @ManyToMany
     val teamOnePlayers: Set<User>,
-    @OneToMany
+    @ManyToMany
     val teamTwoPlayers: Set<User>
 )

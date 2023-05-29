@@ -4,7 +4,7 @@ import cz.upce.fei.janacek.lukas.model.Match
 import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.model.User
 
-class MatchExternalDto (
+data class MatchExternalDto (
     val id: Long?,
     val name: String,
     val description: String?,

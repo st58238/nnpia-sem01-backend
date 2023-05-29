@@ -1,13 +1,14 @@
 package cz.upce.fei.janacek.lukas.model
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
+import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.Entity
+import jakarta.persistence.Column
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 
 @Entity
 class Team (
@@ -19,12 +20,15 @@ class Team (
     val name: String,
     @Column
     val description: String?,
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "leader_id")
     val leader: User?,
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "mentor_id")
     val mentor: User?,
+    @JsonIgnore
     @Column
     @OneToMany
     val members: Set<User>

@@ -6,12 +6,11 @@ import cz.upce.fei.janacek.lukas.dto.toExternalDto
 import cz.upce.fei.janacek.lukas.service.RoleService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
-@Controller
-@RequestMapping("/roles/")
+@RestController
+@RequestMapping("/roles")
 class RoleController (
     private val roleService: RoleService
 ) {
@@ -23,6 +22,18 @@ class RoleController (
     ): ResponseEntity<RoleExternalDto> {
         val role = roleService.findById(id)
         return ResponseEntity.ok(role.toExternalDto())
+    }
+
+    @GetMapping("/page/{page}")
+    fun getRolesPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<RoleExternalDto>> {
+        val roles = roleService.findPage(page, size)
+        val finalSet = roles.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
     }
 
     @PostMapping("")

@@ -1,21 +1,41 @@
 package cz.upce.fei.janacek.lukas.controller
 
 import cz.upce.fei.janacek.lukas.dto.TournamentExternalDto
-
 import cz.upce.fei.janacek.lukas.dto.toEntity
 import cz.upce.fei.janacek.lukas.dto.toExternalDto
 import cz.upce.fei.janacek.lukas.service.TournamentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
-@Controller
-@RequestMapping("/tournaments/")
+@RestController
+@RequestMapping("/tournaments")
 class TournamentController (
     private val tournamentService: TournamentService
 ) {
+
+    @GetMapping("/page/{page}")
+    fun getTournamentPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<TournamentExternalDto>> {
+        val tournaments = tournamentService.findPage(page, size)
+        val finalSet = tournaments.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
+    }
+
+    @GetMapping("/byUser")
+    fun getUsersMatches(
+        @RequestParam
+        userId: Long
+    ): ResponseEntity<Set<TournamentExternalDto>> {
+        val tournaments = tournamentService.findUsersTournaments(userId)
+        val tournamentDtos = tournaments.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(tournamentDtos)
+    }
 
     @GetMapping("/{id}")
     fun getTournamentById(

@@ -3,6 +3,8 @@ package cz.upce.fei.janacek.lukas.service
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
 import cz.upce.fei.janacek.lukas.model.Match
 import cz.upce.fei.janacek.lukas.repository.MatchRepository
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,6 +17,15 @@ class MatchService (
     @Transactional(readOnly = true)
     fun findById(id: Long): Match {
         return matchRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
+    }
+
+    @Transactional(readOnly = true)
+    fun findPage(page: Long, size: Int, sort: Sort? = null): Set<Match> {
+        val matches = if(sort == null)
+            matchRepository.findAll(PageRequest.of(page.toInt(), size))
+        else
+            matchRepository.findAll(PageRequest.of(page.toInt(), size, sort))
+        return matches.toMutableSet()
     }
 
     @Transactional
@@ -42,5 +53,10 @@ class MatchService (
         val match = matchRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
         matchRepository.deleteById(id)
         return match
+    }
+
+    @Transactional(readOnly = true)
+    fun findUsersMatches(userId: Long): Set<Match> {
+        return matchRepository.findMatchesOfUser(userId).toSet()
     }
 }

@@ -6,11 +6,14 @@ import cz.upce.fei.janacek.lukas.lib.Preparations
 import cz.upce.fei.janacek.lukas.migration.MigrationFunctionLibrary.postProcessMigration
 import cz.upce.fei.janacek.lukas.migration.MigrationFunctionLibrary.preProcessMigration
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
 
 
-@SpringBootApplication
+@SpringBootApplication(
+    exclude = [SecurityAutoConfiguration::class]
+)
 @Import(BasicConfiguration::class, SpringConfiguration::class)
 class Main
 
@@ -23,3 +26,9 @@ fun main(args: Array<out String>) {
     postProcessMigration(context, *remainingArgs)
 }
 
+// DONE: package auth převést do struktury configuration, atd.
+// DONE: schéma fix
+// DONE: schéma db do obrázku
+// DONW: Readme.md
+// TODO: profile in frontened
+// TODO: profile image: https://www.npmjs.com/package/react-avatar

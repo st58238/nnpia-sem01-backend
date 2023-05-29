@@ -3,7 +3,7 @@ package cz.upce.fei.janacek.lukas.dto
 import cz.upce.fei.janacek.lukas.model.Team
 import cz.upce.fei.janacek.lukas.model.User
 
-class TeamExternalDto (
+data class TeamExternalDto (
     val id: Long?,
     val name: String,
     val description: String?,

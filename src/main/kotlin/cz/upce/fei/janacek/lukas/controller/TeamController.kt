@@ -6,11 +6,10 @@ import cz.upce.fei.janacek.lukas.dto.toExternalDto
 import cz.upce.fei.janacek.lukas.service.TeamService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
-@Controller
+@RestController
 @RequestMapping("/teams/")
 class TeamController (
     private val teamService: TeamService
@@ -23,6 +22,18 @@ class TeamController (
     ): ResponseEntity<TeamExternalDto> {
         val team = teamService.findById(id)
         return ResponseEntity.ok(team.toExternalDto())
+    }
+
+    @GetMapping("/page/{page}")
+    fun getTeamPageByOffset(
+        @PathVariable
+        page: Long,
+        @RequestParam
+        size: Int
+    ): ResponseEntity<Set<TeamExternalDto>> {
+        val teams = teamService.findPage(page, size)
+        val finalSet = teams.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(finalSet)
     }
 
     @PostMapping("")
