@@ -1,5 +1,6 @@
 package cz.upce.fei.janacek.lukas.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.Entity
 import jakarta.persistence.Column
 import jakarta.persistence.GeneratedValue
@@ -19,12 +20,15 @@ class Team (
     val name: String,
     @Column
     val description: String?,
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "leader_id")
     val leader: User?,
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "mentor_id")
     val mentor: User?,
+    @JsonIgnore
     @Column
     @OneToMany
     val members: Set<User>
