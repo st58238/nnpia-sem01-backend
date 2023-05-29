@@ -51,4 +51,8 @@ class TournamentService (
         tournamentRepository.deleteById(id)
         return tournament
     }
+
+    fun findUsersTournaments(userId: Long): Set<Tournament> {
+        return tournamentRepository.findTournamentsOfUser(userId)
+    }
 }

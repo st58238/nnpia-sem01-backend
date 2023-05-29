@@ -25,6 +25,15 @@ class UserController (
         return ResponseEntity.ok(user.toExternalDto())
     }
 
+    @GetMapping("/userByToken")
+    fun getUserByToken(
+        @RequestParam
+        token: String
+    ): ResponseEntity<UserExternalDto> {
+        val user = userService.findUserByToken(token)
+        return ResponseEntity.ok(user.toExternalDto())
+    }
+
     @Secured("ROLE_USER_LIST")
     @GetMapping("/page/{page}")
     fun getUserPageByOffsetWithSort(

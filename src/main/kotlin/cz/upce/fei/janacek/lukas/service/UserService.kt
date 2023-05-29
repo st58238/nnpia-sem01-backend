@@ -1,6 +1,7 @@
 package cz.upce.fei.janacek.lukas.service
 
 import cz.upce.fei.janacek.lukas.exception.ResourceNotFoundException
+import cz.upce.fei.janacek.lukas.lib.JwtTokenUtil
 import cz.upce.fei.janacek.lukas.model.User
 import cz.upce.fei.janacek.lukas.repository.UserRepository
 import org.springframework.data.domain.PageRequest
@@ -13,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService (
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val jwt: JwtTokenUtil
 ) {
 
     val count: Long
@@ -23,6 +25,17 @@ class UserService (
     @Transactional(readOnly = true)
     fun findById(id: Long): User {
         return userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException()
+    }
+
+    @Transactional(readOnly = true)
+    fun findUserByToken(token: String): User {
+        try {
+            jwt.isTokenValid(token)
+            val username = jwt.getUsername(token)
+            return userRepository.findByUsername(username)!!
+        } catch (_: Exception) {
+            throw ResourceNotFoundException()
+        }
     }
 
     @Transactional(readOnly = true)

@@ -54,4 +54,9 @@ class MatchService (
         matchRepository.deleteById(id)
         return match
     }
+
+    @Transactional(readOnly = true)
+    fun findUsersMatches(userId: Long): Set<Match> {
+        return matchRepository.findMatchesOfUser(userId).toSet()
+    }
 }

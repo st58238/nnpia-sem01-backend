@@ -43,6 +43,16 @@ class MatchController (
         return ResponseEntity.ok(finalSet.toSet())
     }
 
+    @GetMapping("/byUser")
+    fun getUsersMatches(
+        @RequestParam
+        userId: Long
+    ): ResponseEntity<Set<MatchExternalDto>> {
+        val matches = matchService.findUsersMatches(userId)
+        val matchDtos = matches.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(matchDtos)
+    }
+
     @PostMapping("")
     fun create(
         @RequestBody

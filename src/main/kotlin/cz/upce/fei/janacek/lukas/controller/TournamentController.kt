@@ -1,7 +1,6 @@
 package cz.upce.fei.janacek.lukas.controller
 
 import cz.upce.fei.janacek.lukas.dto.TournamentExternalDto
-
 import cz.upce.fei.janacek.lukas.dto.toEntity
 import cz.upce.fei.janacek.lukas.dto.toExternalDto
 import cz.upce.fei.janacek.lukas.service.TournamentService
@@ -26,6 +25,16 @@ class TournamentController (
         val tournaments = tournamentService.findPage(page, size)
         val finalSet = tournaments.map { it.toExternalDto() }.toSet()
         return ResponseEntity.ok(finalSet)
+    }
+
+    @GetMapping("/byUser")
+    fun getUsersMatches(
+        @RequestParam
+        userId: Long
+    ): ResponseEntity<Set<TournamentExternalDto>> {
+        val tournaments = tournamentService.findUsersTournaments(userId)
+        val tournamentDtos = tournaments.map { it.toExternalDto() }.toSet()
+        return ResponseEntity.ok(tournamentDtos)
     }
 
     @GetMapping("/{id}")
